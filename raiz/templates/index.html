@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1 >
+        Sistema de compras
+    </h1>
+    {% if produtos %}
+        <table style="border: 1px solid black;">
+            <thead>
+                <tr>
+                    <th>Nome do Produto</th>
+                    <th>Preço</th>
+                    <th>Disponibilidade</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for produto in produtos %}
+                <tr>
+                    <td>{{ produto.nome }}</td>
+                    <td>R$ {{ produto.preco|floatformat:2 }}</td>
+                    <td>
+                        {% if produto.disponivel %}
+                            Disponível
+                        {% else %}
+                            Indisponível
+                        {% endif %}
+                    </td>
+                    <td style="gap: 30px;"> 
+                        <a href="{% url 'addItem' produto.pk %}" class="botao-comprar">Adicionar ao carrinho</a>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3">Total de Produtos: {{ produtos|length }}</td>
+                </tr>
+            </tfoot>
+        </table>
+    {% else %}
+        <p>Nenhum produto disponível no momento.</p>
+    {% endif %}
+</body>
+</html>

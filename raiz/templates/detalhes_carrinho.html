@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Carrinho</title>
+</head>
+<body>
+    <h1>Detalhes do Carrinho</h1>
+
+    {% if carrinho.itens.all %}
+        <table class="tabela-produtos">
+            <thead>
+                <tr>
+                    <th>Nome do Produto</th>
+                    <th>Quantidade</th>
+                    <th>Preço Unitário</th>
+                    <th>Preço Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in carrinho.itens.all %}
+                <tr>
+                    <td>{{ item.produto.nome }}</td>
+                    <td>{{ item.quantidade }}</td>
+                    <td>R$ {{ item.produto.preco|floatformat:2 }}</td>
+                    <td>R$ {{ item.get_preco_total|floatformat:2 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="total-produtos">Valor Total do Carrinho:</td>
+                    <td>R$ {{ carrinho.get_valor_total|floatformat:2 }}</td>
+                </tr>
+            </tfoot>
+        </table>
+    {% else %}
+        <p class="sem-produtos">Seu carrinho está vazio.</p>
+    {% endif %}
+
+    <a href="{% url 'index' %}" class="botao-voltar">Continuar Comprando</a>
+</body>
+</html>
